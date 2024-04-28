@@ -7,18 +7,21 @@ import { Toaster } from "react-hot-toast";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import axios from "axios";
-import Dashboard from "./pages/Dashboard.jsx";
+import { UserContextProvider } from "../context/userContext.jsx";
+import TodoList from "./pages/Dashboard.jsx";
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
 function App() {
   return (
     <div className="w-screen h-screen">
-      <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} />
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
+      <UserContextProvider>
+        <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} />
+        <Routes>
+          <Route path="/" element={<TodoList />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </UserContextProvider>
     </div>
   );
 }

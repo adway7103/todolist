@@ -1,17 +1,25 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 export default function Register() {
+  const navigate = useNavigate();
   const [data, setData] = useState({ username: "", password: "" });
   const registerUser = async (e) => {
     e.preventDefault();
-    const [username, password] = data;
+    const { username, password } = data;
     try {
-      const data = await axios.post("/register", { username, password });
+      const { data } = await axios.post("/register", { username, password });
       if (data.error) toast.error(data.error);
-      else toast.success("Register success");
-    } catch (err) {}
+      else {
+        toast.success("Register success");
+        navigate("/login");
+      }
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -43,8 +51,9 @@ export default function Register() {
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder=""
                   required=""
+                  value={data.username}
                   onChange={(e) => {
-                    setData({ ...data, name: e.target.value });
+                    setData({ ...data, username: e.target.value });
                   }}
                 />
               </div>
